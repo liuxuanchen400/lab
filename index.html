@@ -2,16 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poster Maker Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        body {
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .iphone-container {
+            width: 390px;
+            height: 844px;
+            background: white;
+            border-radius: 55px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0,0,0,0.1);
+        }
+        .iphone-notch {
+            width: 200px;
+            height: 35px;
+            background: black;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 0 0 20px 20px;
+        }
         .page {
             display: none;
-            height: calc(100vh - 50px); /* 减去底部导航栏的高度 */
+            height: calc(100% - 94px); /* 减去顶部导航栏和底部标签栏的高度 */
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
+            padding-top: 44px; /* 为顶部导航栏留出空间 */
+            padding-bottom: 50px; /* 为底部标签栏留出空间 */
         }
         .page.active {
             display: block;
@@ -56,6 +86,7 @@
             align-items: center;
             color: #8e8e93;
             font-size: 10px;
+            cursor: pointer;
         }
         .tab-item.active {
             color: #007AFF;
@@ -78,6 +109,8 @@
             padding: 12px 20px;
             font-weight: 500;
             text-align: center;
+            cursor: pointer;
+            border: none;
         }
         .ios-button.secondary {
             background: #f2f2f7;
@@ -85,6 +118,7 @@
         }
         .template-card {
             margin-bottom: 16px;
+            cursor: pointer;
         }
         .template-card img {
             border-radius: 8px;
@@ -110,197 +144,341 @@
             background: #ffe5e5;
             color: #ff3b30;
         }
+        .search-bar {
+            background: #f2f2f7;
+            border-radius: 10px;
+            padding: 8px 12px;
+            margin: 8px 16px;
+            display: flex;
+            align-items: center;
+        }
+        .search-bar input {
+            border: none;
+            background: none;
+            flex: 1;
+            margin-left: 8px;
+            outline: none;
+        }
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 16px;
+        }
+        .category-item {
+            background: #f2f2f7;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+        .category-item i {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #007AFF;
+        }
+        .profile-header {
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(to bottom, #007AFF, #00C6FF);
+            color: white;
+        }
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 40px;
+            border: 3px solid white;
+            margin-bottom: 12px;
+        }
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #f2f2f7;
+        }
+        .settings-item i {
+            color: #8e8e93;
+        }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- iOS Navigation Bar -->
-    <div class="ios-nav">
-        <div class="ios-nav-title">Poster Maker Pro</div>
-    </div>
+<body>
+    <div class="iphone-container">
+        <div class="iphone-notch"></div>
 
-    <!-- Main Content Area -->
-    <div class="pt-12 pb-16"> <!-- 为顶部导航栏和底部标签栏留出空间 -->
-        <!-- Splash Screen -->
-        <div id="splash" class="page active min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-500">
-            <div class="text-center">
-                <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=80&h=80&fit=crop" class="w-20 h-20 rounded-2xl mx-auto mb-4">
-                <h1 class="text-2xl font-bold text-white mb-2">Poster Maker Pro</h1>
-                <p class="text-white text-sm">Create stunning posters in seconds</p>
-            </div>
+        <!-- iOS Navigation Bar -->
+        <div class="ios-nav">
+            <div class="ios-nav-title">Poster Maker Pro</div>
         </div>
 
-        <!-- Home Screen -->
-        <div id="home" class="page p-4">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-semibold">My Posters</h2>
-                <button onclick="showPage('templates')" class="ios-button">
-                    Create New
-                </button>
-            </div>
-            
-            <div class="space-y-4">
-                <div class="ios-card">
-                    <img src="https://images.unsplash.com/photo-1614029951471-2da648f211ff?w=400&h=600&fit=crop" class="w-full h-48 object-cover rounded-lg mb-3">
-                    <h3 class="font-semibold text-lg">Summer Sale</h3>
-                    <p class="text-gray-500 text-sm">Created 2 days ago</p>
+        <!-- Main Content Area -->
+        <div class="content-area">
+            <!-- Splash Screen -->
+            <div id="splash" class="page active min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-500">
+                <div class="text-center">
+                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=80&h=80&fit=crop" class="w-20 h-20 rounded-2xl mx-auto mb-4">
+                    <h1 class="text-2xl font-bold text-white mb-2">Poster Maker Pro</h1>
+                    <p class="text-white text-sm">Create stunning posters in seconds</p>
                 </div>
-                <div class="ios-card">
-                    <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=600&fit=crop" class="w-full h-48 object-cover rounded-lg mb-3">
-                    <h3 class="font-semibold text-lg">Music Festival</h3>
-                    <p class="text-gray-500 text-sm">Created 1 week ago</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Templates Screen -->
-        <div id="templates" class="page p-4">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-semibold">Templates</h2>
-                <button onclick="showPage('home')" class="text-blue-500">
-                    Cancel
-                </button>
             </div>
 
-            <div class="space-y-4">
-                <div class="ios-card template-card" onclick="showPage('editor')">
-                    <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0d?w=400&h=600&fit=crop" class="w-full h-48 object-cover rounded-lg mb-3">
-                    <h3 class="font-semibold text-lg">Business</h3>
-                    <p class="text-gray-500 text-sm mb-2">Professional templates</p>
-                    <div class="flex flex-wrap">
-                        <span class="tag tag-blue">Corporate</span>
-                        <span class="tag tag-green">Modern</span>
-                    </div>
-                </div>
-                <div class="ios-card template-card" onclick="showPage('editor')">
-                    <img src="https://images.unsplash.com/photo-1511795409834-432f7d1f57d9?w=400&h=600&fit=crop" class="w-full h-48 object-cover rounded-lg mb-3">
-                    <h3 class="font-semibold text-lg">Events</h3>
-                    <p class="text-gray-500 text-sm mb-2">Party & celebration</p>
-                    <div class="flex flex-wrap">
-                        <span class="tag tag-red">Party</span>
-                        <span class="tag tag-blue">Events</span>
-                    </div>
-                </div>
-                <div class="ios-card template-card" onclick="showPage('editor')">
-                    <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400&h=600&fit=crop" class="w-full h-48 object-cover rounded-lg mb-3">
-                    <h3 class="font-semibold text-lg">Food & Drink</h3>
-                    <p class="text-gray-500 text-sm mb-2">Restaurant & menu</p>
-                    <div class="flex flex-wrap">
-                        <span class="tag tag-green">Food</span>
-                        <span class="tag tag-blue">Menu</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Editor Screen -->
-        <div id="editor" class="page p-4">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-semibold">Edit Poster</h2>
-                <div class="flex space-x-4">
-                    <button class="text-gray-500">
-                        <i class="fas fa-undo"></i>
-                    </button>
-                    <button class="text-gray-500">
-                        <i class="fas fa-redo"></i>
-                    </button>
-                    <button onclick="showPage('templates')" class="text-blue-500">
-                        Cancel
+            <!-- Home Screen -->
+            <div id="home" class="page">
+                <div class="flex justify-between items-center p-4">
+                    <h2 class="text-xl font-semibold">My Posters</h2>
+                    <button onclick="showPage('templates')" class="ios-button">
+                        Create New
                     </button>
                 </div>
-            </div>
-
-            <div class="ios-card mb-4">
-                <div class="aspect-[3/4] bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
-                    <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0d?w=400&h=600&fit=crop" class="w-full h-full object-cover rounded-lg">
-                </div>
-                <div class="flex space-x-4">
-                    <button class="ios-button flex-1">Save</button>
-                    <button class="ios-button secondary flex-1">Share</button>
-                </div>
-            </div>
-
-            <div class="ios-card">
-                <h3 class="font-semibold text-lg mb-4">Customize</h3>
+                
                 <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Text</label>
-                        <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <div class="ios-card">
+                        <img src="https://images.unsplash.com/photo-1614029951471-2da648f211ff?w=400&h=600&fit=crop" class="w-full h-48 object-cover rounded-lg mb-3">
+                        <h3 class="font-semibold text-lg">Summer Sale</h3>
+                        <p class="text-gray-500 text-sm">Created 2 days ago</p>
+                        <div class="flex space-x-2 mt-3">
+                            <button onclick="showPage('editor')" class="ios-button flex-1">Edit</button>
+                            <button class="ios-button secondary flex-1">Share</button>
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Font</label>
-                        <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option>Arial</option>
-                            <option>Times New Roman</option>
-                            <option>Helvetica</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Color</label>
-                        <div class="flex space-x-2">
-                            <button class="w-8 h-8 rounded-full bg-red-500"></button>
-                            <button class="w-8 h-8 rounded-full bg-blue-500"></button>
-                            <button class="w-8 h-8 rounded-full bg-green-500"></button>
+                    <div class="ios-card">
+                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=600&fit=crop" class="w-full h-48 object-cover rounded-lg mb-3">
+                        <h3 class="font-semibold text-lg">Music Festival</h3>
+                        <p class="text-gray-500 text-sm">Created 1 week ago</p>
+                        <div class="flex space-x-2 mt-3">
+                            <button onclick="showPage('editor')" class="ios-button flex-1">Edit</button>
+                            <button class="ios-button secondary flex-1">Share</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Result Display Screen -->
-        <div id="result" class="page p-4">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-semibold">AI Generated Designs</h2>
-                <button onclick="showPage('editor')" class="text-blue-500">
-                    Back
-                </button>
+            <!-- Templates Screen -->
+            <div id="templates" class="page">
+                <div class="flex justify-between items-center p-4">
+                    <h2 class="text-xl font-semibold">Templates</h2>
+                    <button onclick="showPage('home')" class="text-blue-500">
+                        Cancel
+                    </button>
+                </div>
+
+                <div class="search-bar">
+                    <i class="fas fa-search text-gray-400"></i>
+                    <input type="text" placeholder="Search templates...">
+                </div>
+
+                <div class="space-y-4">
+                    <div class="ios-card template-card" onclick="showPage('editor')">
+                        <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0d?w=400&h=600&fit=crop" class="w-full h-48 object-cover rounded-lg mb-3">
+                        <h3 class="font-semibold text-lg">Business</h3>
+                        <p class="text-gray-500 text-sm mb-2">Professional templates</p>
+                        <div class="flex flex-wrap">
+                            <span class="tag tag-blue">Corporate</span>
+                            <span class="tag tag-green">Modern</span>
+                        </div>
+                    </div>
+                    <div class="ios-card template-card" onclick="showPage('editor')">
+                        <img src="https://images.unsplash.com/photo-1511795409834-432f7d1f57d9?w=400&h=600&fit=crop" class="w-full h-48 object-cover rounded-lg mb-3">
+                        <h3 class="font-semibold text-lg">Events</h3>
+                        <p class="text-gray-500 text-sm mb-2">Party & celebration</p>
+                        <div class="flex flex-wrap">
+                            <span class="tag tag-red">Party</span>
+                            <span class="tag tag-blue">Events</span>
+                        </div>
+                    </div>
+                    <div class="ios-card template-card" onclick="showPage('editor')">
+                        <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400&h=600&fit=crop" class="w-full h-48 object-cover rounded-lg mb-3">
+                        <h3 class="font-semibold text-lg">Food & Drink</h3>
+                        <p class="text-gray-500 text-sm mb-2">Restaurant & menu</p>
+                        <div class="flex flex-wrap">
+                            <span class="tag tag-green">Food</span>
+                            <span class="tag tag-blue">Menu</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="space-y-4">
-                <div class="ios-card">
-                    <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&h=600&fit=crop" class="w-full h-64 object-cover rounded-lg mb-3">
-                    <div class="flex flex-wrap mb-3">
-                        <span class="tag tag-red">中国风</span>
-                        <span class="tag tag-blue">传统</span>
+            <!-- Editor Screen -->
+            <div id="editor" class="page">
+                <div class="flex justify-between items-center p-4">
+                    <h2 class="text-xl font-semibold">Edit Poster</h2>
+                    <div class="flex space-x-4">
+                        <button class="text-gray-500">
+                            <i class="fas fa-undo"></i>
+                        </button>
+                        <button class="text-gray-500">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                        <button onclick="showPage('templates')" class="text-blue-500">
+                            Cancel
+                        </button>
                     </div>
-                    <button class="ios-button w-full">Select Design</button>
                 </div>
-                <div class="ios-card">
-                    <img src="https://images.unsplash.com/photo-1511795409834-432f7d1f57d9?w=400&h=600&fit=crop" class="w-full h-64 object-cover rounded-lg mb-3">
-                    <div class="flex flex-wrap mb-3">
-                        <span class="tag tag-green">科技感</span>
-                        <span class="tag tag-blue">现代</span>
+
+                <div class="ios-card mb-4">
+                    <div class="aspect-[3/4] bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0d?w=400&h=600&fit=crop" class="w-full h-full object-cover rounded-lg">
                     </div>
-                    <button class="ios-button w-full">Select Design</button>
+                    <div class="flex space-x-4">
+                        <button class="ios-button flex-1">Save</button>
+                        <button class="ios-button secondary flex-1">Share</button>
+                    </div>
                 </div>
+
                 <div class="ios-card">
-                    <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=600&fit=crop" class="w-full h-64 object-cover rounded-lg mb-3">
-                    <div class="flex flex-wrap mb-3">
-                        <span class="tag tag-green">简约</span>
-                        <span class="tag tag-blue">商务</span>
+                    <h3 class="font-semibold text-lg mb-4">Customize</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Text</label>
+                            <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Font</label>
+                            <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option>Arial</option>
+                                <option>Times New Roman</option>
+                                <option>Helvetica</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Color</label>
+                            <div class="flex space-x-2">
+                                <button class="w-8 h-8 rounded-full bg-red-500"></button>
+                                <button class="w-8 h-8 rounded-full bg-blue-500"></button>
+                                <button class="w-8 h-8 rounded-full bg-green-500"></button>
+                            </div>
+                        </div>
                     </div>
-                    <button class="ios-button w-full">Select Design</button>
+                </div>
+            </div>
+
+            <!-- Assets Screen -->
+            <div id="assets" class="page">
+                <div class="flex justify-between items-center p-4">
+                    <h2 class="text-xl font-semibold">Assets</h2>
+                    <button class="ios-button">Upload</button>
+                </div>
+
+                <div class="search-bar">
+                    <i class="fas fa-search text-gray-400"></i>
+                    <input type="text" placeholder="Search assets...">
+                </div>
+
+                <div class="category-grid">
+                    <div class="category-item" onclick="showPage('assets-images')">
+                        <i class="fas fa-images"></i>
+                        <div>Images</div>
+                    </div>
+                    <div class="category-item" onclick="showPage('assets-icons')">
+                        <i class="fas fa-icons"></i>
+                        <div>Icons</div>
+                    </div>
+                    <div class="category-item" onclick="showPage('assets-fonts')">
+                        <i class="fas fa-font"></i>
+                        <div>Fonts</div>
+                    </div>
+                    <div class="category-item" onclick="showPage('assets-templates')">
+                        <i class="fas fa-paint-brush"></i>
+                        <div>Templates</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Screen -->
+            <div id="profile" class="page">
+                <div class="profile-header">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop" class="profile-avatar mx-auto">
+                    <h2 class="text-xl font-bold">John Doe</h2>
+                    <p class="text-sm opacity-80">Pro Member</p>
+                </div>
+
+                <div class="ios-card mt-4">
+                    <div class="settings-item">
+                        <div>Account Settings</div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                    <div class="settings-item">
+                        <div>Subscription</div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                    <div class="settings-item">
+                        <div>Notifications</div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                    <div class="settings-item">
+                        <div>Privacy</div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                    <div class="settings-item">
+                        <div>Help & Support</div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                    <div class="settings-item">
+                        <div>About</div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+
+                <div class="p-4">
+                    <button class="ios-button secondary w-full">Sign Out</button>
+                </div>
+            </div>
+
+            <!-- Result Display Screen -->
+            <div id="result" class="page">
+                <div class="flex justify-between items-center p-4">
+                    <h2 class="text-xl font-semibold">AI Generated Designs</h2>
+                    <button onclick="showPage('editor')" class="text-blue-500">
+                        Back
+                    </button>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="ios-card">
+                        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&h=600&fit=crop" class="w-full h-64 object-cover rounded-lg mb-3">
+                        <div class="flex flex-wrap mb-3">
+                            <span class="tag tag-red">中国风</span>
+                            <span class="tag tag-blue">传统</span>
+                        </div>
+                        <button class="ios-button w-full">Select Design</button>
+                    </div>
+                    <div class="ios-card">
+                        <img src="https://images.unsplash.com/photo-1511795409834-432f7d1f57d9?w=400&h=600&fit=crop" class="w-full h-64 object-cover rounded-lg mb-3">
+                        <div class="flex flex-wrap mb-3">
+                            <span class="tag tag-green">科技感</span>
+                            <span class="tag tag-blue">现代</span>
+                        </div>
+                        <button class="ios-button w-full">Select Design</button>
+                    </div>
+                    <div class="ios-card">
+                        <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=600&fit=crop" class="w-full h-64 object-cover rounded-lg mb-3">
+                        <div class="flex flex-wrap mb-3">
+                            <span class="tag tag-green">简约</span>
+                            <span class="tag tag-blue">商务</span>
+                        </div>
+                        <button class="ios-button w-full">Select Design</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- iOS Tab Bar -->
-    <div class="ios-tab-bar">
-        <div class="tab-item active" onclick="showPage('home')">
-            <i class="fas fa-home"></i>
-            <span>Home</span>
-        </div>
-        <div class="tab-item" onclick="showPage('templates')">
-            <i class="fas fa-paint-brush"></i>
-            <span>Templates</span>
-        </div>
-        <div class="tab-item" onclick="showPage('assets')">
-            <i class="fas fa-images"></i>
-            <span>Assets</span>
-        </div>
-        <div class="tab-item" onclick="showPage('profile')">
-            <i class="fas fa-user"></i>
-            <span>Profile</span>
+        <!-- iOS Tab Bar -->
+        <div class="ios-tab-bar">
+            <div class="tab-item active" onclick="showPage('home')">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </div>
+            <div class="tab-item" onclick="showPage('templates')">
+                <i class="fas fa-paint-brush"></i>
+                <span>Templates</span>
+            </div>
+            <div class="tab-item" onclick="showPage('assets')">
+                <i class="fas fa-images"></i>
+                <span>Assets</span>
+            </div>
+            <div class="tab-item" onclick="showPage('profile')">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </div>
         </div>
     </div>
 
