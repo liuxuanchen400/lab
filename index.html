@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poster Maker Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+        .template-card:hover {
+            transform: scale(1.02);
+            transition: transform 0.2s;
+        }
+        .nav-item {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+        }
+        .nav-item:hover {
+            background-color: #f3f4f6;
+        }
+        .nav-item.active {
+            background-color: #e5e7eb;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Splash Screen -->
+    <div id="splash" class="page active min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-600 to-blue-500">
+        <div class="text-center">
+            <h1 class="text-4xl font-bold text-white mb-4">Poster Maker Pro</h1>
+            <p class="text-white text-lg">Create stunning posters in seconds</p>
+        </div>
+    </div>
+
+    <!-- Main Layout with Navigation -->
+    <div id="main-layout" class="page min-h-screen bg-gray-50">
+        <div class="flex h-screen">
+            <!-- Sidebar Navigation -->
+            <div class="w-64 bg-white shadow-md p-4">
+                <div class="flex items-center mb-8">
+                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=40&h=40&fit=crop" class="w-10 h-10 rounded-full mr-3">
+                    <span class="font-bold text-xl">Poster Pro</span>
+                </div>
+                <nav class="space-y-2">
+                    <div class="nav-item active" onclick="showPage('home')">
+                        <i class="fas fa-home mr-2"></i> Home
+                    </div>
+                    <div class="nav-item" onclick="showPage('templates')">
+                        <i class="fas fa-paint-brush mr-2"></i> Templates
+                    </div>
+                    <div class="nav-item" onclick="showPage('assets')">
+                        <i class="fas fa-images mr-2"></i> Asset Library
+                    </div>
+                    <div class="nav-item" onclick="showPage('settings')">
+                        <i class="fas fa-cog mr-2"></i> Settings
+                    </div>
+                    <div class="nav-item" onclick="showPage('profile')">
+                        <i class="fas fa-user mr-2"></i> Profile
+                    </div>
+                    <div class="nav-item" onclick="showPage('help')">
+                        <i class="fas fa-question-circle mr-2"></i> Help
+                    </div>
+                </nav>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="flex-1 overflow-auto">
+                <!-- Home Screen -->
+                <div id="home" class="page p-8">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800">My Posters</h2>
+                        <button onclick="showPage('templates')" class="bg-purple-600 text-white px-4 py-2 rounded-lg">
+                            Create New
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-white rounded-lg shadow-md p-4">
+                            <img src="https://images.unsplash.com/photo-1614029951471-2da648f211ff?w=400&h=600&fit=crop" class="w-full h-48 object-cover rounded-lg mb-4">
+                            <h3 class="font-semibold text-lg">Summer Sale</h3>
+                            <p class="text-gray-600 text-sm">Created 2 days ago</p>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-md p-4">
+                            <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=600&fit=crop" class="w-full h-48 object-cover rounded-lg mb-4">
+                            <h3 class="font-semibold text-lg">Music Festival</h3>
+                            <p class="text-gray-600 text-sm">Created 1 week ago</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Templates Screen -->
+                <div id="templates" class="page p-8">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800">Templates</h2>
+                        <div class="flex space-x-4">
+                            <input type="text" placeholder="Search templates..." class="px-4 py-2 border rounded-lg">
+                            <button class="bg-purple-600 text-white px-4 py-2 rounded-lg">Filter</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="template-card bg-white rounded-lg shadow-md p-4 cursor-pointer" onclick="showPage('editor')">
+                            <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0d?w=400&h=600&fit=crop" class="w-full h-48 object-cover rounded-lg mb-4">
+                            <h3 class="font-semibold text-lg">Business</h3>
+                            <p class="text-gray-600 text-sm">Professional templates</p>
+                            <div class="flex gap-2 mt-2">
+                                <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">Corporate</span>
+                                <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Modern</span>
+                            </div>
+                        </div>
+                        <div class="template-card bg-white rounded-lg shadow-md p-4 cursor-pointer" onclick="showPage('editor')">
+                            <img src="https://images.unsplash.com/photo-1511795409834-432f7d1f57d9?w=400&h=600&fit=crop" class="w-full h-48 object-cover rounded-lg mb-4">
+                            <h3 class="font-semibold text-lg">Events</h3>
+                            <p class="text-gray-600 text-sm">Party & celebration</p>
+                        </div>
+                        <div class="template-card bg-white rounded-lg shadow-md p-4 cursor-pointer" onclick="showPage('editor')">
+                            <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400&h=600&fit=crop" class="w-full h-48 object-cover rounded-lg mb-4">
+                            <h3 class="font-semibold text-lg">Food & Drink</h3>
+                            <p class="text-gray-600 text-sm">Restaurant & menu</p>
+                        </div>
+                        <div class="template-card bg-white rounded-lg shadow-md p-4 cursor-pointer" onclick="showPage('editor')">
+                            <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=600&fit=crop" class="w-full h-48 object-cover rounded-lg mb-4">
+                            <h3 class="font-semibold text-lg">Fashion</h3>
+                            <p class="text-gray-600 text-sm">Style & trends</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Asset Library Screen -->
+                <div id="assets" class="page p-8">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800">Asset Library</h2>
+                        <button class="bg-purple-600 text-white px-4 py-2 rounded-lg">
+                            Upload Asset
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-4 gap-4">
+                        <div class="bg-white rounded-lg shadow-md p-4">
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-folder text-yellow-500 mr-2"></i>
+                                <span class="font-semibold">Images</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">120 items</p>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-md p-4">
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-icons text-blue-500 mr-2"></i>
+                                <span class="font-semibold">Icons</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">85 items</p>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-md p-4">
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-font text-green-500 mr-2"></i>
+                                <span class="font-semibold">Fonts</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">45 items</p>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-md p-4">
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-paint-brush text-purple-500 mr-2"></i>
+                                <span class="font-semibold">Templates</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">30 items</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Screen -->
+                <div id="settings" class="page p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-8">Settings</h2>
+                    
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-semibold mb-4">Account Settings</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Email</label>
+                                <input type="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Language</label>
+                                <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
+                                    <option>English</option>
+                                    <option>中文</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Theme</label>
+                                <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
+                                    <option>Light</option>
+                                    <option>Dark</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Screen -->
+                <div id="profile" class="page p-8">
+                    <div class="flex items-center mb-8">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop" class="w-24 h-24 rounded-full mr-6">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800">John Doe</h2>
+                            <p class="text-gray-600">Pro Member</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-6">
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h3 class="text-lg font-semibold mb-4">Statistics</h3>
+                            <div class="space-y-2">
+                                <p class="text-gray-600">Total Posters: 24</p>
+                                <p class="text-gray-600">Saved Templates: 12</p>
+                                <p class="text-gray-600">Storage Used: 2.4GB</p>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h3 class="text-lg font-semibold mb-4">Recent Activity</h3>
+                            <div class="space-y-2">
+                                <p class="text-gray-600">Created "Summer Sale"</p>
+                                <p class="text-gray-600">Updated "Music Festival"</p>
+                                <p class="text-gray-600">Shared "Product Launch"</p>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h3 class="text-lg font-semibold mb-4">Subscription</h3>
+                            <div class="space-y-2">
+                                <p class="text-gray-600">Plan: Pro</p>
+                                <p class="text-gray-600">Renewal: 2024-12-31</p>
+                                <button class="bg-purple-600 text-white px-4 py-2 rounded-lg mt-2">Upgrade</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Help Screen -->
+                <div id="help" class="page p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-8">Help & Support</h2>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h3 class="text-lg font-semibold mb-4">FAQ</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="font-medium">How to create a new poster?</h4>
+                                    <p class="text-gray-600 text-sm mt-1">Click "Create New" and select a template to get started.</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">How to save my work?</h4>
+                                    <p class="text-gray-600 text-sm mt-1">Click the save button in the editor to save your progress.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h3 class="text-lg font-semibold mb-4">Contact Support</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Subject</label>
+                                    <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Message</label>
+                                    <textarea class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500" rows="4"></textarea>
+                                </div>
+                                <button class="bg-purple-600 text-white px-4 py-2 rounded-lg">Send Message</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Editor Screen -->
+                <div id="editor" class="page p-8">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800">Edit Poster</h2>
+                        <div class="flex space-x-4">
+                            <button class="text-gray-600">
+                                <i class="fas fa-undo"></i>
+                            </button>
+                            <button class="text-gray-600">
+                                <i class="fas fa-redo"></i>
+                            </button>
+                            <button onclick="showPage('home')" class="text-gray-600">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="col-span-2 bg-white rounded-lg shadow-md p-4">
+                            <div class="aspect-[3/4] bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
+                                <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0d?w=400&h=600&fit=crop" class="w-full h-full object-cover rounded-lg">
+                            </div>
+                            <div class="flex justify-center space-x-4">
+                                <button class="bg-purple-600 text-white px-6 py-2 rounded-lg">Save</button>
+                                <button class="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg">Share</button>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-md p-4">
+                            <h3 class="font-semibold text-lg mb-4">Customize</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Text</label>
+                                    <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Font</label>
+                                    <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
+                                        <option>Arial</option>
+                                        <option>Times New Roman</option>
+                                        <option>Helvetica</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Color</label>
+                                    <div class="flex space-x-2 mt-2">
+                                        <button class="w-8 h-8 rounded-full bg-red-500"></button>
+                                        <button class="w-8 h-8 rounded-full bg-blue-500"></button>
+                                        <button class="w-8 h-8 rounded-full bg-green-500"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Result Display Screen -->
+                <div id="result" class="page p-8">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800">AI Generated Designs</h2>
+                        <button onclick="showPage('editor')" class="text-gray-600">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-6">
+                        <div class="bg-white rounded-lg shadow-md p-4">
+                            <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&h=600&fit=crop" class="w-full h-64 object-cover rounded-lg mb-4">
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">中国风</span>
+                                <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">传统</span>
+                            </div>
+                            <button class="w-full bg-purple-600 text-white px-4 py-2 rounded-lg">Select Design</button>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-md p-4">
+                            <img src="https://images.unsplash.com/photo-1511795409834-432f7d1f57d9?w=400&h=600&fit=crop" class="w-full h-64 object-cover rounded-lg mb-4">
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">科技感</span>
+                                <span class="px-2 py-1 bg-purple-100 text-purple-800 rounded-full text-xs">现代</span>
+                            </div>
+                            <button class="w-full bg-purple-600 text-white px-4 py-2 rounded-lg">Select Design</button>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-md p-4">
+                            <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=600&fit=crop" class="w-full h-64 object-cover rounded-lg mb-4">
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">简约</span>
+                                <span class="px-2 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs">商务</span>
+                            </div>
+                            <button class="w-full bg-purple-600 text-white px-4 py-2 rounded-lg">Select Design</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Show splash screen for 2 seconds
+        setTimeout(() => {
+            showPage('main-layout');
+        }, 2000);
+
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+
+            // Update navigation active state
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            const activeNav = document.querySelector(`.nav-item[onclick="showPage('${pageId}')"]`);
+            if (activeNav) {
+                activeNav.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html> 
